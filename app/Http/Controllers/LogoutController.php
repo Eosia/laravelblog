@@ -9,6 +9,11 @@ use Auth;
 class LogoutController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     //gère la déconnexion
     public function logout()
     {

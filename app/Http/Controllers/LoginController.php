@@ -8,6 +8,11 @@ use Auth;
 class LoginController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
     // form de connexion
     public function index ()
     {

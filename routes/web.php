@@ -35,14 +35,9 @@ Route::post('reset', [ResetController::class, 'reset'])->name('post.reset');
 
 Route::get('profile/{user}', [UserController::class, 'profile'])->name('user.profile');
 
-Route::resource('articles', ArticleController::class);
+Route::resource('articles', ArticleController::class)->except('index');
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-
+Route::get('/', [ArticleController::class, 'index']);
 
 
 /*Route::get('structures', function () {

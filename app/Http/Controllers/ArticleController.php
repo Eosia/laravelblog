@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Article;
-use Str;
+use App\Models\{
+    Article,
+    Category,
+};
+
+use Str, Auth ;
+use App\Http\Requests\ArticleRequest;
+
 
 class ArticleController extends Controller
 {
@@ -12,7 +18,7 @@ class ArticleController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index', 'show');
     }
 
     //pagination
@@ -51,8 +57,18 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
-        return 'Formulaire de création d\'un article';
+
+        $categories = Category::get();
+
+        $data = [
+            'title' => $description = 'Ajouter un nouvel article',
+            'description' => $description,
+            'categories' => $categories,
+        ];
+
+        //formulaire de création d'un article
+        return view('article.create', $data);
+
     }
 
     /**
@@ -61,9 +77,48 @@ class ArticleController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
+
+        $validatedData = $request->validated();
+        $validatedData['category_id'] = request('category', null);
+        Auth::user()->articles()->create($validatedData);
+
+
+        /*
+        $article = Auth::user()->articles()->create(request()->validate([
+            'title' => ['required', 'max:20', 'unique:articles,title'],
+            'content' => ['required'],
+            'category' => ['sometimes', 'nullable', 'exists:categories,id'],
+        ]));
+
+        $article->category_id = request('category', null);
+        $article->save();
+        */
+
+        /*
+        $article = Article::create([
+            'user_id' =>auth()->id(),
+            'title' => request('title'),
+            'slug' => Str::slug(request('title')),
+            'content' => (request('content')),
+            'category_id' => request('category', null),
+        ]);*/
+
+
+
         // sauvegarde d'un article
+        //$article = new Article;
+
+/*        $article->user_id = Auth::id();
+        $article->category_id = request('category', null);
+        $article->title = request('title');
+        $article->slug = Str::slug($article->title);
+        $article->content = request('content');
+        $article->save();*/
+
+        $success = 'Article ajouté';
+        return back()->withSuccess($success);
 
     }
 

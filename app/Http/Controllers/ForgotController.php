@@ -12,6 +12,11 @@ use App\Models\User;
 class ForgotController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
     //formulaire d\'oublie du mot de passe
     public function index()
     {
