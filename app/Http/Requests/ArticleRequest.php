@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class ArticleRequest extends FormRequest
 {
@@ -24,18 +26,22 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'max:20', 'unique:articles,title'],
+            'title' => $this->method() == 'POST' ?
+                ['required', 'max:20', 'unique:articles,title'] :
+                ['required', 'max:20', Rule::unique('articles','title')->ignore($this->article)],
             'content' => ['required'],
             'category' => ['sometimes', 'nullable', 'exists:categories,id'],
         ];
     }
 
+    /*
     public function messages()
     {
         return [
             'title.required' => 'Le titre est obligatoire',
         ];
     }
+    */
 
 
 }

@@ -15,7 +15,6 @@ use App\Http\Requests\ArticleRequest;
 class ArticleController extends Controller
 {
 
-
     public function __construct()
     {
         $this->middleware('auth')->except('index', 'show');
@@ -147,9 +146,23 @@ class ArticleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //user authentifié, permet d'éditer un article via form
+
+        $categories = Category::get();
+
+        //user authentifié avec permission sur l'article, permet d'éditer un article via form
+        abort_if(auth()->id() != $article->user_id, 403 );
+
+        $data = [
+            'title' => $description = 'Mise à jour de l\'article' . $article->title,
+            'description' => $description,
+            'article' => $article,
+            'categories' => Category::get(),
+        ];
+
+        return view('article.edit', $data);
+
     }
 
     /**
@@ -159,9 +172,19 @@ class ArticleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, Article $article )
     {
+
         // mise à jour de l\'article en db
+        $validatedData = $request->validated();
+        $validatedData['category_id'] = request('category', null);
+
+        $article = Auth::user()->articles()->updateOrCreate(['id' => $article->id], $validatedData );
+
+        $success = 'Article modifié';
+
+        return redirect()->route('articles.edit', ['article' => $article->slug])->withSuccess($success);
+
     }
 
     /**
@@ -170,8 +193,16 @@ class ArticleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        // supprime l\'article
+        // supprime l'article
+        abort_if(auth()->id() != $article->user_id, 403 );
+
+        $article->delete();
+
+        $success = 'Article supprimé.';
+
+        return back()->withSuccess($success);
+
     }
 }
