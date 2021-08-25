@@ -134,6 +134,7 @@ class ArticleController extends Controller
             'title' => $article->title.' - '.config('app.name'),
             'description' => $article->title.' - '.Str::words($article->content, 10),
             'article' => $article,
+            'comments' => $article->comments()->orderByDesc('created_at')->get(),
         ];
 
         return view('article.show', $data);
@@ -176,7 +177,7 @@ class ArticleController extends Controller
     {
 
         // mise à jour de l\'article en db
-        $validatedData = $request->validated();
+
         $validatedData['category_id'] = request('category', null);
 
         $article = Auth::user()->articles()->updateOrCreate(['id' => $article->id], $validatedData );
