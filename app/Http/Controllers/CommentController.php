@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
+
 use App\Models\{
-  Comment, Article
+    Article,
+    Comment,
 };
-use App\Http\requests\CommentRequest;
+
+use App\Notifications\NewComment;
 
 
 class CommentController extends Controller
@@ -23,7 +27,13 @@ class CommentController extends Controller
         $validatedData = $request->validated();
         $validatedData['user_id'] = auth()->id();
 
-        $article->comments()->create($validatedData);
+        $comment = $article->comments()->create($validatedData);
+
+        // si le commentateur n'est pas l'auteur, cela envoie une notification d'un nouveau commentaire
+        if(auth()->id() != $article->user_id)
+        {
+            $article->user->notify(new NewComment($comment));
+        }
 
         $success = 'Commentaire ajouté';
 
