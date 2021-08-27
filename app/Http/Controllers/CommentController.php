@@ -32,7 +32,9 @@ class CommentController extends Controller
         // si le commentateur n'est pas l'auteur, cela envoie une notification d'un nouveau commentaire
         if(auth()->id() != $article->user_id)
         {
-            $article->user->notify(new NewComment($comment));
+            $when = now()->addSeconds(10);
+
+            $article->user->notify((new NewComment($comment))->delay($when));
         }
 
         $success = 'Commentaire ajouté';
