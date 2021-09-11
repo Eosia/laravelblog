@@ -46,23 +46,3 @@ Route::resource('articles', ArticleController::class)->except('index');
 
 // route index
 Route::get('/', [ArticleController::class, 'index']);
-
-
-/*Route::get('structures', function () {
-
-    $fruits = ['pomme', 'orange', 'mandarine', 'citron'];
-
-    $data = [
-        'number'=> 2,
-        'fruits' => $fruits,
-    ];
-    return view('structures', $data);
-});
-
-Route::get('test', function () {
-    return view('test')->withTitle('Laravel');
-});
-
-Route::get('test2', function () {
-    return view('test2')->withTitle('Php');
-});*/
