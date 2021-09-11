@@ -41,7 +41,8 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
             }
 
             return in_array($user->email, [
-                //
+                //user admin pour horizon
+                'kevin@eosia.dev'
             ]);
         });
     }
