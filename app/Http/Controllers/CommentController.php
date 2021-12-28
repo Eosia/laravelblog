@@ -10,7 +10,7 @@ use App\Models\{
     Comment,
 };
 
-use App\Notifications\NewComment;
+use App\Events\CommentWasCreated;
 
 
 class CommentController extends Controller
@@ -32,9 +32,7 @@ class CommentController extends Controller
         // si le commentateur n'est pas l'auteur, cela envoie une notification d'un nouveau commentaire
         if(auth()->id() != $article->user_id)
         {
-            $when = now()->addSeconds(1);
-
-            $article->user->notify((new NewComment($comment))->delay($when));
+            event(new CommentWasCreated($comment));
         }
 
         $success = 'Commentaire ajouté';

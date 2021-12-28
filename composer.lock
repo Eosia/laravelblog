@@ -1503,16 +1503,16 @@
         },
         {
             "name": "laravel/horizon",
-            "version": "v5.7.12",
+            "version": "v5.7.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "98e2a6efac1a79ae08a9cce84bef32f236f6f800"
+                "reference": "5b14ede6cd8b63cd42d3585096bb55561866c6d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/98e2a6efac1a79ae08a9cce84bef32f236f6f800",
-                "reference": "98e2a6efac1a79ae08a9cce84bef32f236f6f800",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/5b14ede6cd8b63cd42d3585096bb55561866c6d9",
+                "reference": "5b14ede6cd8b63cd42d3585096bb55561866c6d9",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1572,7 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2021-08-31T14:56:54+00:00"
+            "time": "2021-12-07T16:02:09+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2485,16 +2485,16 @@
         },
         {
             "name": "predis/predis",
-            "version": "v1.1.7",
+            "version": "v1.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "b240daa106d4e02f0c5b7079b41e31ddf66fddf8"
+                "reference": "c50c3393bb9f47fa012d0cdfb727a266b0818259"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/b240daa106d4e02f0c5b7079b41e31ddf66fddf8",
-                "reference": "b240daa106d4e02f0c5b7079b41e31ddf66fddf8",
+                "url": "https://api.github.com/repos/predis/predis/zipball/c50c3393bb9f47fa012d0cdfb727a266b0818259",
+                "reference": "c50c3393bb9f47fa012d0cdfb727a266b0818259",
                 "shasum": ""
             },
             "require": {
@@ -2543,7 +2543,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-04T19:34:46+00:00"
+            "time": "2021-10-05T19:02:38+00:00"
         },
         {
             "name": "psr/container",
@@ -3268,6 +3268,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "symfony/mailer",
             "time": "2021-03-09T12:30:35+00:00"
         },
         {
@@ -8064,7 +8065,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
