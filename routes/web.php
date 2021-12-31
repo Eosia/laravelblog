@@ -29,12 +29,14 @@ Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::get('logout', [LogoutController::class, 'logout'])->name('logout');
 Route::get('forgot',[ForgotController::class, 'index'])->name('forgot');
 Route::get('reset/{token}', [ResetController::class, 'index'])->name('reset ');
+Route::get('user/edit', [UserController::class, 'edit'])->name('user.edit');
 
 //routes post
 Route::post('register', [RegisterController::class, 'register'])->name('post.register');
 Route::post('login', [LoginController::class, 'login'])->name('post.login');
 Route::post('forgot', [ForgotController::class, 'store'])->name('post.forgot');
 Route::post('reset', [ResetController::class, 'reset'])->name('post.reset');
+Route::post('user/store', [UserController::class, 'store'])->name('post.user');
 
 //route commentaires
 Route::post('comment/{article}', [CommentController::class, 'store'])->name('post.comment');
