@@ -42,7 +42,7 @@ class User extends Authenticatable
     ];
 
     public function avatar() {
-        $this->hasOne(Avatar::class);
+        return $this->hasOne(Avatar::class);
     }
 
     public function articles()

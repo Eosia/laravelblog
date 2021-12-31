@@ -14,7 +14,7 @@
         <div class="col-lg-9">
 
             @if(session('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success mt-3">
                     {{ session('success') }}
                 </div>
             @endif
@@ -55,6 +55,14 @@
                             <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        @if(!empty($user->avatar->filename))
+                            <div class="mb-2">
+                                <a href="{{ $user->avatar->url }}" target="_blank">
+                                    <img src="{{ $user->avatar->thumb_url }}" alt="{{ $user->avatar->filename }}" width="200" height="200">
+                                </a>
+                            </div>
+                        @endif
 
                         <button type="submit" class="btn btn-primary my-3">Envoyer</button>
                     </form>
