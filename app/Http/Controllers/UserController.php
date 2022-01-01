@@ -14,10 +14,20 @@ class UserController extends Controller
         $this->middleware('auth')->except('profile');
     }
 
-    // gestion du profil de l'utilisateur
+    // affiche la page publique d'un utilisateur
     public function profile(User $user)
     {
-        return 'mon nom est '.$user->name;
+        $articles = $user->articles()->withCount('comments')->orderByDesc('comments_count')->paginate(4);
+
+        $data = [
+            'title' => 'Profil de '.$user->name,
+            'description' => $user->name.' est inscrit depuis le '.$user->created_at->isoFormat('LL').
+                ' et a posté '.$user->articles()->count().' article(s)',
+            'user' => $user,
+            'articles' => $articles,
+        ];
+        return view('user.profile', $data);
+
     }
 
     // formulaire de mise à jour des infos de l'user connecté
@@ -44,7 +54,7 @@ class UserController extends Controller
     //mise à jour du mot de passe
     public function updatePassword() {
         request()->validate([
-            'current' => 'required|password ',
+            'current' => 'required|password',
             'password' => 'required|between:8,140|confirmed',
         ]);
 
@@ -69,7 +79,7 @@ class UserController extends Controller
             $user = $user->updateOrCreate(['id'=>$user->id], request()->validate([
                 'name' => ['required', 'min:3', 'max:50', Rule::unique('users')->ignore($user)],
                 'email' => ['required', 'email', Rule::unique('users')->ignore($user)],
-                'avatar' => ['sometimes','nullable' ,'file', 'image', 'mimes:jpeg,png',
+                'avatar' => ['sometimes','nullable' ,'file', 'image', 'mimes:jpeg,png,jpg',
                     'dimensions:min_width=200,min_height=200', 'max:1000'],
             ]));
 
@@ -105,8 +115,6 @@ class UserController extends Controller
             dd($e->getErrors());
         }
 
-
-
         DB::commit();
 
         $success = 'Informations mises à jour.';
@@ -114,4 +122,32 @@ class UserController extends Controller
 
     }
 
+    // fonction qui permet à l'utilisateur de supprimer son compte
+    public function destroy(User $user) {
+
+        abort_if($user->id !== auth()->id(), 403);
+        Storage::deleteDirectory('avatars/'.$user->id);
+        $user->delete();
+        $success = 'Utilisateur supprimé.';
+        return redirect('/')->withSuccess($success);
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

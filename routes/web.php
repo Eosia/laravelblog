@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     ForgotController,
     ResetController,
     CommentController,
+    CategoryController,
 };
 
 /*
@@ -24,6 +25,7 @@ use App\Http\Controllers\{
 */
 
 // routes get
+Route::get('/', [ArticleController::class, 'index']);
 Route::get('register', [RegisterController::class, 'index'])->name('register');
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::get('logout', [LogoutController::class, 'logout'])->name('logout');
@@ -31,8 +33,11 @@ Route::get('forgot',[ForgotController::class, 'index'])->name('forgot');
 Route::get('reset/{token}', [ResetController::class, 'index'])->name('reset ');
 Route::get('user/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::get('user/password', [UserController::class, 'password'])->name('user.password');
+Route::get('profile/{user}', [UserController::class, 'profile'])->name('user.profile');
+Route::get('category/{category}', [CategoryController::class, 'show'])->name('category.show');
 
 //routes post
+Route::post('comment/{article}', [CommentController::class, 'store'])->name('post.comment');
 Route::post('register', [RegisterController::class, 'register'])->name('post.register');
 Route::post('login', [LoginController::class, 'login'])->name('post.login');
 Route::post('forgot', [ForgotController::class, 'store'])->name('post.forgot');
@@ -40,13 +45,8 @@ Route::post('reset', [ResetController::class, 'reset'])->name('post.reset');
 Route::post('user/store', [UserController::class, 'store'])->name('post.user');
 Route::post('password', [UserController::class, 'updatePassword'])->name('update.password');
 
-//route commentaires
-Route::post('comment/{article}', [CommentController::class, 'store'])->name('post.comment');
-
-Route::get('profile/{user}', [UserController::class, 'profile'])->name('user.profile');
-
 //route articles
 Route::resource('articles', ArticleController::class)->except('index');
 
-// route index
-Route::get('/', [ArticleController::class, 'index']);
+// route delete
+Route::delete('destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');

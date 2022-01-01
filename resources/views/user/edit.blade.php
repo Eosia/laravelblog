@@ -59,7 +59,7 @@
                         @if(!empty($user->avatar->filename))
                             <div class="mb-2">
                                 <a href="{{ $user->avatar->url }}" target="_blank">
-                                    <img src="{{ $user->avatar->thumb_url }}" alt="{{ $user->avatar->filename }}" width="200" height="200">
+                                    <img src="{{ $user->avatar->thumb_url }}" alt=""Avatar de {{ $user->name }}" width="200" height="200">
                                 </a>
                             </div>
                         @endif
@@ -67,11 +67,21 @@
                         <button type="submit" class="btn btn-primary my-3">Envoyer</button>
                     </form>
 
-                    <p class="mt-2">
+                    <p class="my-3">
                         <a href="{{ route('user.password') }}">
                             Modifier mon mot de passe
                         </a>
                     </p>
+
+                    <div class="my-3">
+                        <form action="{{ route('user.destroy', ['user'=>$user->id]) }}" method="post">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="alert alert-danger">
+                                Supprimer mon compte
+                            </button>
+                        </form>
+                    </div>
 
                 </div>
             </div>
